@@ -4,7 +4,6 @@ import itertools
 from typing import List, Dict, Any, cast
 
 from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
-from Options import OptionError
 from worlds.AutoWorld import World, WebWorld
 from . import items
 from . import locations
@@ -47,9 +46,8 @@ class SubnauticaWorld(World):
     creatures_to_scan: List[str]
 
     def generate_early(self) -> None:
-        weights_list = self.options.filler_items_distribution.weights_pair[1]
-        if not weights_list or not weights_list[-1]:
-            raise OptionError("Filler Items Distribution needs at least one positive weight.")
+        if not self.options.filler_items_distribution.weights_pair[1][-1]:
+            raise Exception("Filler Items Distribution needs at least one positive weight.")
         if self.options.early_seaglide:
             self.multiworld.local_early_items[self.player]["Seaglide Fragment"] = 2
 
